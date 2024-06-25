@@ -1,0 +1,11 @@
+---
+- name: setup
+  hosts: servers
+  # remote_user: maxim
+  roles: 
+    - role: updateOS
+      tags: update
+    - role: dockerInstall
+      tags: docker
+    - role: MinikubeInstall
+      tags: minikube

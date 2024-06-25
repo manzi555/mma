@@ -1,0 +1,46 @@
+---
+- name: CentOS / RHEL update
+  block:
+    - name: CentOS / RHEL 7 update all packages
+      yum:
+        name: "*"
+        state: latest
+      when: ansible_distribution_major_version == '7'
+
+    - name: CentOS / RHEL 8 update all packages
+      dnf: 
+        update_cache: yes
+        name: "*"
+        state: latest
+      register: result
+      changed_when:
+        - '"Nothing to do" not in result.stdout'
+      when: ansible_distribution_major_version == '8'
+
+    - name: CentOS / RHEL 9 update all packages
+      dnf: 
+        update_cache: yes
+        name: "*"
+        state: latest
+      changed_when:
+        - '"Nothing to do" not in result.stdout'
+      when: ansible_distribution_major_version == '9'
+
+    - name: CentOS / RHEL show result
+      debug:
+        msg: "{{ result.stdout_lines }}"
+  when: ansible_distribution in ['CentOS', 'RedHat']
+
+- name: Debian / Ubuntu update
+  block:
+    - name: Debian & Ubuntu update all packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+        force_apt_get: yes
+      register: result
+
+    - name: Debian & Ubuntu show updates
+      debug:
+        msg: "{{ result.stdout_lines }}"
+  when: ansible_distribution in ['Debian', 'Ubuntu']

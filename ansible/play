@@ -1,0 +1,1 @@
+ansible-playbook -i inventory all.yml -k --ask-become-pass

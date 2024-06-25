@@ -1,0 +1,6 @@
+[servers]
+localhost
+[all:vars]
+ansible_port=22
+ansible_user=maxim
+ansible_become=true
